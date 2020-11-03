@@ -1,0 +1,9 @@
+
+.Prometheus for EKS configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|EKS cluster name
+(`KubeClusterName`)|`**__Requires input__**`|Name of the EKS cluster to deploy Prometheus into.|Namespace
+(`Namespace`)|`prometheus`|[Optional] Kubernetes namespace to deploy Prometheus into.|Override values
+(`OverrideValues`)|`**__Blank string__**`|(Optional) URI to a file containing values to pass to the helm install. Can be http(s):// or s3://.
+|===
