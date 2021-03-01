@@ -6,10 +6,10 @@
 :partner-product-short-name: Prometheus
 // If there's no partner, comment partner-company-name and partner-contributors.
 // :partner-company-name: Example Company Name, Ltd.
-:doc-month: Month of launch or significant update (spelled out)
-:doc-year: Year
+:doc-month: March
+:doc-year: 2021
 // :partner-contributors: Shuai Ye, Michael McConnell, and John Smith, {partner-company-name}
-:quickstart-contributors: Sumit Joshi, Jay McConnell
+:quickstart-contributors: Sumit Joshi and Jay McConnell
 :default_deployment_region: us-east-2
 
 :eks_addin:
