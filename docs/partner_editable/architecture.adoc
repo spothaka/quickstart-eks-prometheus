@@ -1,5 +1,5 @@
 // Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram. End each bullet with a period.
-* Server stateful set that scrapes and stores time-series data.
+* Server stateful set that scrapes and stores time series data.
 * Pushgateway deployment that supports short-lived jobs.
 * Node-exporter daemonset that provides hardware and operating system metrics.
 * Alertmanager for deduplicating, grouping, and routing alerts.

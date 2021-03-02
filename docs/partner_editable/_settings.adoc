@@ -9,7 +9,7 @@
 :doc-month: March
 :doc-year: 2021
 // :partner-contributors: Shuai Ye, Michael McConnell, and John Smith, {partner-company-name}
-:quickstart-contributors: Sumit Joshi and Jay McConnell
+:quickstart-contributors: Sumit Joshi and Jay McConnell, AWS Quick Start team
 :default_deployment_region: us-east-2
 
 :eks_addin:
