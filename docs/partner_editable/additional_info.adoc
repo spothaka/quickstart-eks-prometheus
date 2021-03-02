@@ -1,8 +1,8 @@
 == Test the deployment
 
-NOTE: These steps must be executed from a network that has access to the Kubernetes API, as configured by the Amazon EKS public-access endpoint and Kubernetes API public-access CIDR parameters. For more information, see https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html[Installing Kubectl^]. If you enabled the optional bastion host, you can connect to it by using SSH. Use the key pair that you specified during deployment and the IP address from the *Outputs* tab of the AWS CloudFormation stack. The bastion host already has Kubectl installed and configured so that it connects to the cluster. To test the command line interface (CLI), connect to the cluster, and run the following command:
+NOTE: These steps must run from a network that has access to the Kubernetes API, as configured by the Amazon EKS public-access endpoint and Kubernetes API public-access CIDR parameters. For more information, see https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html[Installing Kubectl^]. If you enabled the optional bastion host, you can connect to it by using SSH. Use the key pair that you specified during deployment and the IP address from the *Outputs* tab of the AWS CloudFormation stack. The bastion host already has Kubectl installed and configured so that it connects to the cluster. To test the command line interface (CLI), connect to the cluster, and run the following command:
 
-. Configure the Kubectl command-line utility to connect to your Amazon EKS cluster according to https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html[Cluster authentication^].
+. Configure the Kubectl command line utility to connect to your Amazon EKS cluster according to https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html[Cluster authentication^].
 . Set up proxy traffic to the Prometheus server by running the following command:
 ```
 kubectl port-forward -n prometheus sts/prometheus-server 8080:9090
@@ -28,4 +28,4 @@ NOTE: If a values file is stored in an S3 bucket, ensure that the `awsqs-kuberne
 
 == Scalability
 
-By default, this deployment uses gp2 Amazon EBS volumes for storage. Large deployments may need more I/O performance and/or more storage space. To increase I/O performance, provide a custom-values file that points the Prometheus server disk to a `StorageClass` that uses EBS-provisioned IOPS. To increase storage size, `server.persistentVolume.size` and `alertmanager.persistentVolume.size` can be set in your custom-values YAML file.
+By default, this deployment uses gp2 Amazon EBS volumes for storage. Large deployments may need more I/O performance and/or more storage space. To increase I/O performance, provide a custom-values file that points the Prometheus server disk to a `StorageClass` that uses EBS-provisioned IOPS. To increase storage size, `server.persistentVolume.size` and `alertmanager.persistentVolume.size` can be set in your custom YAML file.
