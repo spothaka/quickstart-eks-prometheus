@@ -1,8 +1,8 @@
-This guide provides instructions for deploying {{partner-product-name}}.
+This guide provides instructions for deploying Prometheus for Amazon Elastic Kubernetes Service (Amazon EKS).
 
-Prometheus is an open-source monitoring and alerting system that records metrics in a time-series database. Prometheus features a multi-dimensional data model, defining metrics by name and a set of key/value pairs. Metrics are collected from targets discovered through service directory or a static configuration using a pull model over HTTP. Time-series pushing is supported from short-lived jobs to intermediary ones that can be scraped by Prometheus. The user can choose and aggregate time-series data with the custom Prometheus query language PromQL. Prometheus features an expression browser for viewing expression results, and offers multiple modes of graphing and dashboard support including Grafana.
+Prometheus is an open-source monitoring and alerting system with a time-series database and custom query language. Prometheus features a multi-dimensional data model, defining metrics by name and a set of key-value pairs. Metrics are collected from targets discovered through service directory or a static configuration using a pull model over HTTP. To monitor components that cannot be scraped, Prometheus supports a push gateway to allow ephemeral jobs to expose their metrics. With PromQL (Prometheus Query Language) you can query time-series data for dashboards, alerts, or ad-hoc insights. Prometheus features an expression browser for viewing expression results, and offers multiple modes of graphing and dashboard support including Grafana.
 
-In addition to deploying Prometheus into Amazon Elastic Kubernetes Service (Amazon EKS), this Quick Start also configures monitoring for Amazon EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
+In addition to Prometheus for Amazon EKS, this Quick Start also configures monitoring for Amazon EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
 
 This Quick Start is for developers, DevOps, security teams, and any role within an organization that deploys and maintains applications on Amazon EKS.
 
