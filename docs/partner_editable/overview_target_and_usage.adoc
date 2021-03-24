@@ -1,14 +1,6 @@
 This guide provides instructions for deploying the Prometheus Quick Start into Amazon EKS.
 
-Prometheus is an open-source systems monitoring and alerting toolkit, providing a reliable, multidimensional time-series data store. Prometheus's main features are the following:
-
-* A multidimensional data model with time series data identified by metric name and key-value pairs.
-* PromQL, a flexible query language.
-* No reliance on distributed storage; single-server nodes are autonomous.
-* Time-series collection using a pull model over HTTP.
-* Pushing time series is supported via an intermediary gateway.
-* Targets are discovered using service discovery or a static configuration.
-* Multiple modes of graphing and dashboard support.
+Prometheus is an open-source monitoring and alerting system that records metrics in a time-series database. Prometheus features a multi-dimensional data model, defining metrics by name and a set of key/value pairs. Metrics are collected from targets discovered through service directory or a static configuration using a pull model over HTTP. Time-series pushing is supported from short-lived jobs to intermediary ones that can be scraped by Prometheus. The user can choose and aggregate time-series data with the custom Prometheus query language PromQL. Prometheus features an expression browser for viewing expression results, and offers multiple modes of graphing and dashboard support including Grafana.
 
 In addition to deploying Prometheus into Amazon EKS, this Quick Start also configures monitoring for EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
 
@@ -16,4 +8,3 @@ This Quick Start is for developers, DevOps, security teams, and any role within 
 
 
 
-Prometheus is an open-source monitoring and alerting system that records metrics in a time-series database. Time series are built using a pull model over HTTP. The user can choose and aggregate time-series data with the custom PromQL (Prometheus Query Language) and view results in the Prometheus expression browser in graph or tabular format. Multiple nodes of graphing and dashboard support are provided. Time-series data collection uses a pull model over HTTP, and pushing is supported through an intermediate gateway. Prometheus can discover targets using a service directory or a static configuration. 
