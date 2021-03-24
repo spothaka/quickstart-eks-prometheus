@@ -1,6 +1,6 @@
 This guide provides instructions for deploying the Prometheus Quick Start into Amazon EKS.
 
-Prometheus is an open-source systems monitoring and alerting toolkit, providing a reliable, multidimensional time series data store. Prometheus's main features are the following:
+Prometheus is an open-source systems monitoring and alerting toolkit, providing a reliable, multidimensional time-series data store. Prometheus's main features are the following:
 
 * A multidimensional data model with time series data identified by metric name and key-value pairs.
 * PromQL, a flexible query language.
