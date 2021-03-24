@@ -1,6 +1,6 @@
 == Test the deployment
 
-NOTE: These steps must run from a network that has access to the Kubernetes API, as configured by the Amazon EKS public-access endpoint and Kubernetes API public-access CIDR parameters. For more information, see https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html[Installing Kubectl^]. If you enabled the optional bastion host, you can connect to it by using SSH. Use the key pair that you specified during deployment and the IP address from the *Outputs* tab of the AWS CloudFormation stack. The bastion host already has Kubectl installed and configured so that it connects to the cluster. To test the command line interface (CLI), connect to the cluster, and run the following command:
+NOTE: Test from a network with access to the Kubernetes API, as configured by the *Amazon EKS public access endpoint* and *Kubernetes API public access CIDR* parameters. For more information, see https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html[Installing kubectl^]. If you enabled the optional bastion host, you can connect to it using SSH (Secure Shell). Use the key pair that you specified during deployment and the IP address from the *Outputs* tab of the AWS CloudFormation stack. The bastion host already has Kubectl installed and configured so that it connects to the cluster. To test the CLI, connect to the cluster, and run the following command.
 
 . Configure the Kubectl command line utility to connect to your Amazon EKS cluster according to https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html[Cluster authentication^].
 . Set up proxy traffic to the Prometheus server by running the following command:
@@ -22,10 +22,10 @@ Best practices for alerting, naming, instrumentation, and more can be found in t
 Prometheus contains many components and integrations with other systems, and some configurations may enable additional attack vectors. For more information, see the https://prometheus.io/docs/operating/security/#security-model[Prometheus security model^].
 
 == Deployment customization
-This deployment can be customized during the helm install by providing a file that contains custom values. The values file must be in YAML format and placed in a public HTTPS location or an S3 bucket. A list of configurable options is available on the https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml[Prometheus GitHub page^].
+You can customize this deployment by providing a file that contains custom values during Helm installation. This file must be in YAML format and placed in a public HTTPS location or an S3 bucket. For a list of configurable options, see the https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml[prometheus-community/helm-charts] GitHub page.
 
-NOTE: If a values file is stored in an S3 bucket, ensure that the `awsqs-kubernetes-helm` IAM role has read permissions for the object.
+NOTE: If you store the custom values file in an S3 bucket, make sure that the AWS Identity and Access Management (IAM) role `awsqs-kubernetes-helm` has read permissions for it.
 
 == Scalability
 
-By default, this deployment uses gp2 Amazon EBS volumes for storage. Large deployments may need more I/O performance and/or more storage space. To increase I/O performance, provide a custom-values file that points the Prometheus server disk to a `StorageClass` that uses EBS-provisioned IOPS. To increase storage size, `server.persistentVolume.size` and `alertmanager.persistentVolume.size` can be set in your custom YAML file.
+By default, this deployment uses General Purpose SSD (gp2) volumes for storage. Large deployments may need more I/O performance or storage space. To increase I/O performance, provide a custom-values file that points the Prometheus server disk to a `StorageClass` that uses IOPS provisioned by Amazon Elastic Block Storage (Amazon EBS). To increase storage size, set `server.persistentVolume.size` and `alertmanager.persistentVolume.size` parameters in your custom-values file.
