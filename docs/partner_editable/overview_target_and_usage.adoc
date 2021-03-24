@@ -1,15 +1,10 @@
-This guide provides instructions for deploying the Prometheus Quick Start into Amazon EKS.
+This guide provides instructions for deploying Prometheus for Amazon Elastic Kubernetes Service (Amazon EKS).
 
-Prometheus is an open-source systems monitoring and alerting toolkit, providing a reliable, multidimensional time series data store. Prometheus's main features are the following:
+Prometheus is an open-source monitoring and alerting system with a time-series database and custom query language. Prometheus features a multi-dimensional data model, defining metrics by name and a set of key-value pairs. Metrics are collected from targets discovered through service directory or a static configuration using a pull model over HTTP. To monitor components that cannot be scraped, Prometheus supports a push gateway to allow ephemeral jobs to expose their metrics. With PromQL (Prometheus Query Language) you can query time-series data for dashboards, alerts, or ad-hoc insights. Prometheus features an expression browser for viewing expression results, and offers multiple modes of graphing and dashboard support including Grafana.
 
-* A multidimensional data model with time series data identified by metric name and key-value pairs.
-* PromQL, a flexible query language.
-* No reliance on distributed storage; single-server nodes are autonomous.
-* Time-series collection using a pull model over HTTP.
-* Pushing time series is supported via an intermediary gateway.
-* Targets are discovered using service discovery or a static configuration.
-* Multiple modes of graphing and dashboard support.
-
-In addition to deploying Prometheus into Amazon EKS, this Quick Start also configures monitoring for EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
+In addition to Prometheus for Amazon EKS, this Quick Start also configures monitoring for Amazon EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
 
 This Quick Start is for developers, DevOps, security teams, and any role within an organization that deploys and maintains applications on Amazon EKS.
+
+
+
