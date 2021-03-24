@@ -13,3 +13,7 @@ Prometheus is an open-source systems monitoring and alerting toolkit, providing 
 In addition to deploying Prometheus into Amazon EKS, this Quick Start also configures monitoring for EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
 
 This Quick Start is for developers, DevOps, security teams, and any role within an organization that deploys and maintains applications on Amazon EKS.
+
+
+
+Prometheus is an open-source monitoring and alerting system that records metrics in a time-series database. Time series are built using a pull model over HTTP. The user can choose and aggregate time-series data with the custom PromQL (Prometheus Query Language) and view results in the Prometheus expression browser in graph or tabular format. Multiple nodes of graphing and dashboard support are provided. Time-series data collection uses a pull model over HTTP, and pushing is supported through an intermediate gateway. Prometheus can discover targets using a service directory or a static configuration. 

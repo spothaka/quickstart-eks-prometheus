@@ -1,7 +1,7 @@
 // Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram. End each bullet with a period.
 * A Kubernetes namespace for Prometheus.
 * Node-exporter daemonset to monitor the host system and provide hardware and operating system metrics.
-* Pushgateway deployment to support short-lived jobs.
+* Pushgateway deployment to push time series from short-lived jobs to intermediary jobs that Prometheus can scrape.
 * Kube-state-metrics daemonset to generate metrics on the health of deployments, nodes, and pods. 
 * Server stateful set to scrape and store time-series data.
 * Alertmanager stateful set for deduplicating, grouping, and routing alerts.
