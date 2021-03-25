@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Deploys the prometheus helm chart into an existing kubernetes cluster (qs-1qde66ffn)"
+Description: Deploys the prometheus Helm chart into an existing Kubernetes cluster (qs-1qde66ffn).
 Metadata:
   LintSpellExclude:
     - Kubernetes
@@ -7,18 +7,18 @@ Metadata:
     - Namespace
     - Prometheus
   QuickStartDocumentation:
-    EntrypointName: "Launch into an existing EKS cluster"
+    EntrypointName: Launch into an existing Amazon EKS cluster
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: Prometheus for EKS configuration
+          default: Prometheus for Amazon EKS configuration
         Parameters:
           - KubeClusterName
           - Namespace
           - OverrideValues
     ParameterLabels:
       KubeClusterName:
-        default: EKS cluster name
+        default: Amazon EKS cluster name
       OverrideValues:
         default: Override values
       Namespace:
@@ -26,15 +26,15 @@ Metadata:
 Parameters:
   KubeClusterName:
     Type: String
-    Description: 'Name of the EKS cluster to deploy Prometheus into.'
+    Description: Name of the Amazon EKS cluster to deploy Prometheus into.
   OverrideValues:
     Type: String
-    Description: (Optional) URI to a file containing values to pass to the helm install. Can be http(s):// or s3://.
+    Description: (Optional) URI to a file containing custom values to pass to the Helm install. Can be `http(s)://` or `s3://`.
     Default: ''
   Namespace:
     Type: String
     Default: prometheus
-    Description: '[Optional] Kubernetes namespace to deploy Prometheus into.'
+    Description: (Optional) Kubernetes namespace to deploy Prometheus into.
 Conditions:
   SupplyOverrides: !Not [!Equals [!Ref OverrideValues, '']]
 Resources:
