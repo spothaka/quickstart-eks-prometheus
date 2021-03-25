@@ -4,6 +4,6 @@
 * Node-exporter DaemonSet with pod to monitor Amazon EKS nodes and provide hardware and operating system metrics.
 * Pushgateway deployment with pod to push metrics from short-lived jobs to intermediary jobs that Prometheus can scrape.
 * Kube-state-metrics DaemonSet with pod to monitor the Kubernetes API server.
-* Server StatefulSet, with pod and attached persistent volume (PV), to scrap and store time-series data. The pod requests PV resources with persistent volume claims (PVCs).
+* Server StatefulSet, with pod and attached persistent volume (PV), to scrap and store time-series data. The pod uses persistent volume claims (PVCs) to request PV resources.
 * Alertmanager StatefulSet, with pod and attached PV, for deduplication, grouping, and routing of alerts.
 * Amazon Elastic Block Storage (Amazon EBS) General Purpose SSD (gp2) storage volume.
