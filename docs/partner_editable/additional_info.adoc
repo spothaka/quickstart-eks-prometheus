@@ -23,7 +23,7 @@ Best practices for alerting, naming, instrumentation, and more can be found in t
 Prometheus contains many components and integrations with other systems, and some configurations may enable additional attack vectors. For more information, see the https://prometheus.io/docs/operating/security/#security-model[Prometheus security model^].
 
 == Deployment customization
-You can customize this deployment by providing a file with custom values during Helm installation. The file must be in YAML format and placed in a public HTTPS location or an S3 bucket. If you use an S3 bucket, ensure that the AWS Identity and Access Management (IAM) role `awsqs-kubernetes-helm` has read permissions to the file. For a list of configurable options, see the https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml[prometheus-community/helm-charts] GitHub page.
+To customize the Quick Start, you can create a file with custom values. During stack deployment, enter the file URI in the *Override values* parameter. The file must be in YAML format and placed in a public HTTPS location or an S3 bucket. If you use an S3 bucket, ensure that the AWS Identity and Access Management (IAM) role `awsqs-kubernetes-helm` has read permissions to the file. For a list of configurable options, see the https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml[prometheus-community/helm-charts] GitHub page.
 
 
 == Scalability
