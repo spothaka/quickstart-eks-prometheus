@@ -1,10 +1,7 @@
 This guide provides instructions for deploying Prometheus for Amazon Elastic Kubernetes Service (Amazon EKS).
 
-Prometheus is an open-source monitoring and alerting system with a time-series database and custom query language. Prometheus features a multi-dimensional data model, defining metrics by name and key-value pairs. Metrics are collected from targets discovered through service directory or a static configuration using a pull model over HTTP. To monitor components that cannot be scraped, Prometheus supports a push gateway that exposes the metrics of ephemeral jobs. With PromQL (Prometheus Query Language) you can query time-series data for dashboards, alerts, or ad-hoc insights. For visualization, Prometheus features an expression browser and offers multiple modes of graphing and dashboard support.
+This Quick Start deploys Prometheus open-source monitoring and alerting system for Amazon Elastic Kubernetes Service (Amazon EKS). Prometheus features a multi-dimensional data model, defining metrics by name and key-value pairs. Metrics are collected from targets discovered through service directory or a static configuration using a pull model over HTTP. To monitor components that cannot be scraped, Prometheus supports a push gateway that exposes the metrics of ephemeral jobs. With PromQL (Prometheus Query Language) you can query time-series data for dashboards, alerts, or ad-hoc insights. For visualization, Prometheus features an expression browser and offers multiple modes of graphing and dashboard support.
 
 In addition to Prometheus for Amazon EKS, this Quick Start also configures monitoring for Amazon EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
 
-This Quick Start is for developers, DevOps, security teams, and any role within an organization that deploys and maintains applications on Amazon EKS.
-
-
-
+Amazon Web Service (AWS) customers can deploy Prometheus into a new virtual private cloud (VPC) and new EKS cluster, an existing VPC and new EKS cluster, or an existing VPC and existing EKS cluster.
