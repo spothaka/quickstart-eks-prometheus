@@ -1,7 +1,7 @@
 This guide provides instructions for deploying Prometheus for Amazon Elastic Kubernetes Service (Amazon EKS).
 
-This Quick Start deploys Prometheus open-source monitoring and alerting system for Amazon Elastic Kubernetes Service (Amazon EKS). Prometheus features a multi-dimensional data model, defining metrics by name and key-value pairs. Metrics are collected from targets discovered through service directory or a static configuration using a pull model over HTTP. To monitor components that cannot be scraped, Prometheus supports a push gateway that exposes the metrics of ephemeral jobs. With PromQL (Prometheus Query Language) you can query time-series data for dashboards, alerts, or ad-hoc insights. For visualization, Prometheus features an expression browser and offers multiple modes of graphing and dashboard support.
+This Quick Start deploys Prometheus open-source monitoring for Amazon Elastic Kubernetes Service (Amazon EKS). It uses Prometheus query language (PromQL) to monitor the performance of containerized workloads without the need for underlying infrastructure. You can use the Kubernetes API server to ingest metrics from Amazon EKS nodes and self-managed clusters. For visualizations, Prometheus features an expression browser and offers multiple modes of graphing and dashboard support.
 
 In addition to Prometheus for Amazon EKS, this Quick Start also configures monitoring for Amazon EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
 
-Amazon Web Service (AWS) customers can deploy Prometheus into a new virtual private cloud (VPC) and new EKS cluster, an existing VPC and new EKS cluster, or an existing VPC and existing EKS cluster.
+Amazon Web Service (AWS) customers can deploy Prometheus into a new virtual private cloud (VPC) and a new EKS cluster, an existing VPC and a new EKS cluster, or an existing VPC and an existing EKS cluster.
