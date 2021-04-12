@@ -27,5 +27,4 @@ To customize the Quick Start, you can create a file with custom values. During s
 
 
 == Scalability
-
 By default, this deployment uses General Purpose SSD (gp2) volumes for storage. Large deployments may need more I/O performance or storage space. To increase I/O performance, provide a custom-values file to point the Prometheus server disk to a `StorageClass` with IOPS provisioned by Amazon EBS. To increase storage size, set `server.persistentVolume.size` and `alertmanager.persistentVolume.size` parameters in your custom-values file.
