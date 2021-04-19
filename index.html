@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
-<title>Prometheus on the AWS Cloud</title>
+<meta name="generator" content="Asciidoctor 2.0.12">
+<title>Prometheus for Amazon EKS on the AWS Cloud</title>
 <style>
 
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -802,8 +802,7 @@ p.footer-text a{color:#d7d8d8}
 </li>
 <li><a href="#_deployment_steps">Deployment steps</a>
 <ul class="sectlevel2">
-<li><a href="#_sign_in_to_your_aws_account">Sign in to your AWS account</a></li>
-<li><a href="#_prepare_existing_eks_cluster">Prepare existing EKS cluster</a></li>
+<li><a href="#_prepare_an_existing_eks_cluster">Prepare an existing EKS cluster</a></li>
 <li><a href="#_launch_the_quick_start">Launch the Quick Start</a></li>
 </ul>
 </li>
@@ -818,7 +817,7 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel2">
 <li><a href="#_deploy_into_a_new_vpc_and_new_amazon_eks_cluster">Deploy into a new VPC and new Amazon EKS cluster</a></li>
 <li><a href="#_deploy_into_a_new_amazon_eks_cluster_in_an_existing_vpc">Deploy into a new Amazon EKS cluster in an existing VPC</a></li>
-<li><a href="#_launch_into_an_existing_eks_cluster">Launch into an existing EKS cluster</a></li>
+<li><a href="#_launch_into_an_existing_amazon_eks_cluster">Launch into an existing Amazon EKS cluster</a></li>
 </ul>
 </li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
@@ -831,7 +830,7 @@ p.footer-text a{color:#d7d8d8}
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<h2 id="_prometheus" class="discrete text-center">Prometheus</h2>
+<h2 id="_prometheus_for_amazon_eks" class="discrete text-center">Prometheus for Amazon EKS</h2>
 <h2 id="_quick_start_reference_deployment" class="discrete text-left text-center">Quick Start Reference Deployment</h2>
 <div class="imageblock text-center">
 <div class="content">
@@ -839,8 +838,8 @@ p.footer-text a{color:#d7d8d8}
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>Month of launch or significant update (spelled out) Year</strong><br>
-<em>Sumit Joshi, Jay McConnell</em></p>
+<p><strong>April 2021</strong><br>
+<em>Sumit Joshi and Jay McConnell, AWS Quick Start team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -849,7 +848,7 @@ p.footer-text a{color:#d7d8d8}
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Visit the <a href="https://github.com/aws-quickstart/quickstart-eks-prometheus" target="_blank" rel="noopener">GitHub repository</a> for source files and to post feedback,
+Visit our <a href="https://github.com/aws-quickstart/quickstart-eks-prometheus" target="_blank" rel="noopener">GitHub repository</a> for source files and to post feedback,
 report bugs, or submit feature ideas for this Quick Start.
 </td>
 </tr>
@@ -864,41 +863,16 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide provides instructions for deploying the Prometheus Quick Start into Amazon EKS.</p>
+<p>This guide provides instructions for deploying Prometheus for Amazon Elastic Kubernetes Service (Amazon EKS).</p>
 </div>
 <div class="paragraph">
-<p>Prometheus is an open-source systems monitoring and alerting toolkit, providing a reliable, multi-dimensional time-series data store. Prometheus&#8217;s main features are:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a multi-dimensional data model with time series data identified by metric name and key/value pairs</p>
-</li>
-<li>
-<p>PromQL, a flexible query language to leverage this dimensionality</p>
-</li>
-<li>
-<p>no reliance on distributed storage; single server nodes are autonomous</p>
-</li>
-<li>
-<p>time series collection happens via a pull model over HTTP</p>
-</li>
-<li>
-<p>pushing time series is supported via an intermediary gateway</p>
-</li>
-<li>
-<p>targets are discovered via service discovery or static configuration</p>
-</li>
-<li>
-<p>multiple modes of graphing and dashboarding support</p>
-</li>
-</ul>
+<p>This Quick Start deploys Prometheus open-source monitoring for Amazon Elastic Kubernetes Service (Amazon EKS). It uses Prometheus query language (PromQL) to monitor the performance of containerized workloads without the need for underlying infrastructure. You can use the Kubernetes API server to ingest metrics from Amazon EKS nodes and self-managed clusters. For visualizations, Prometheus features an expression browser and offers multiple modes of graphing and dashboard support.</p>
 </div>
 <div class="paragraph">
-<p>In addition to deploying Prometheus into Amazon EKS this Quick Start also configures monitoring for EKS nodes (<code>node-exporter</code>) and the Kubernetes API server (<code>kube-state-metrics</code>).</p>
+<p>In addition to Prometheus for Amazon EKS, this Quick Start also configures monitoring for Amazon EKS nodes (<code>node-exporter</code>) and the Kubernetes API server (<code>kube-state-metrics</code>).</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start is for developers, devops, security teams, or any role within an organization building, deploying and maintaining applications on Amazon EKS.</p>
+<p>Amazon Web Service (AWS) customers can deploy Prometheus into a new virtual private cloud (VPC) and a new EKS cluster, an existing VPC and a new EKS cluster, or an existing VPC and an existing EKS cluster.</p>
 </div>
 </div>
 </div>
@@ -906,30 +880,39 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_architecture">Architecture</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deploying this Quick Start with default parameters into an existing Amazon EKS cluster builds the following environment. For a diagram of the new VPC and Amazon EKS cluster, see the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" target="_blank" rel="noopener">Amazon EKS on the AWS Cloud</a>.</p>
+<p>Deploying this Quick Start with default parameters into an existing Amazon EKS cluster builds the following environment. For a diagram of the new virtual private cloud (VPC) and Amazon EKS cluster, see <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" target="_blank" rel="noopener">Amazon EKS on the AWS Cloud</a>.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
 <a class="image" href="images/architecture_diagram.png"><img src="images/architecture_diagram.png" alt="Architecture"></a>
 </div>
-<div class="title">Figure 1. Quick Start architecture for <em>Prometheus</em></div>
+<div class="title">Figure 1. Quick Start architecture for <em>Prometheus for Amazon EKS</em></div>
 </div>
 <div class="paragraph">
-<p>As shown in figure 1, the Quick Start sets up the following:</p>
+<p>As shown in Figure 1, the Quick Start sets up the following:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>server stateful set - scrapes and stores time series data.</p>
+<p>A Kubernetes namespace for Prometheus.</p>
 </li>
 <li>
-<p>pushgateway deployment - supports short-lived jobs</p>
+<p>Node-exporter DaemonSet with a pod to monitor Amazon EKS nodes.</p>
 </li>
 <li>
-<p>node-exporter daemonset - provides hardware and OS metrics</p>
+<p>Pushgateway deployment with a pod to push metrics from short-lived jobs to intermediary jobs that Prometheus can scrape.</p>
 </li>
 <li>
-<p>alertmanager - deduplicating, grouping, and routing of alerts.</p>
+<p>Kube-state-metrics DaemonSet with a pod to monitor the Kubernetes API server.</p>
+</li>
+<li>
+<p>Server StatefulSet with a pod and attached persistent volume (PV) to scrap and store time-series data. The pod uses persistent volume claims (PVCs) to request PV resources.</p>
+</li>
+<li>
+<p>Alertmanager StatefulSet with a pod and attached PV for deduplication, grouping, and routing of alerts.</p>
+</li>
+<li>
+<p>Amazon Elastic Block Storage (Amazon EBS) General Purpose SSD (gp2) storage volume.</p>
 </li>
 </ul>
 </div>
@@ -943,11 +926,11 @@ report bugs, or submit feature ideas for this Quick Start.
 <div class="paragraph">
 <p>This deployment guide requires a moderate level of familiarity with
 AWS services. If you’re new to AWS, see the <a href="https://aws.amazon.com/getting-started/" target="_blank" rel="noopener">Getting Started Resource Center</a>
-and <a href="https://aws.amazon.com/training/">AWS Training and Certification</a>. These sites provide materials for learning how to design,
+and <a href="https://aws.amazon.com/training/" target="_blank" rel="noopener">AWS Training and Certification</a>. These sites provide materials for learning how to design,
 deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start assumes familiarity with  with Amazon EKS, AWS CloudFormation and Kubernetes.</p>
+<p>This Quick Start assumes familiarity with Amazon EKS, AWS CloudFormation, and Kubernetes.</p>
 </div>
 </div>
 <div class="sect2">
@@ -962,13 +945,13 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <div class="sect2">
 <h3 id="_amazon_eks_cluster">Amazon EKS cluster</h3>
 <div class="paragraph">
-<p>If you deploy your cluster into an existing Amazon EKS cluster that was not created by the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/">Amazon EKS on the AWS Cloud</a> Quick Start, you must configure your cluster to allow this Quick Start to manage it. For more information, see the <a href="#_deployment_steps">Deployment steps</a> section.</p>
+<p>If you deploy your cluster into an existing Amazon EKS cluster that was not created by the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" target="_blank" rel="noopener">Amazon EKS on the AWS Cloud</a> Quick Start, you must configure your cluster to allow this Quick Start to manage it. For more information, see the <a href="#_deployment_steps">Deployment steps</a> section.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_iam_permissions">IAM permissions</h3>
 <div class="paragraph">
-<p>Before launching the Quick Start, you must log in to the AWS Management Console with <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html" target="_blank" rel="noopener">IAM permissions</a> for the resources and actions the templates deploy.</p>
+<p>Before launching the Quick Start, you must log in to the AWS Management Console with <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html" target="_blank" rel="noopener">AWS Identity and Access Management (IAM)</a> permissions for the resources and actions that each template deploys.</p>
 </div>
 <div class="paragraph">
 <p>The <em>AdministratorAccess</em> managed policy within IAM provides sufficient permissions, although your organization may choose to use a custom policy with more restrictions.</p>
@@ -988,7 +971,7 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <p><strong>Deploy Prometheus into a new EKS cluster of an existing VPC</strong>. This option builds a new Amazon EKS cluster, node group, and other infrastructure components into an existing VPC. It then deploys Prometheus into this new EKS cluster.</p>
 </li>
 <li>
-<p><strong>Deploy Prometheus into an existing EKS cluster</strong>. This option provisions Prometheus in your existing AWS infrastructure. Note that when deploying into an EKS cluster that was not created by the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/">Amazon EKS on the AWS Cloud</a> Quick Start, you must prepare the cluster as described in the <a href="#_deployment_steps">Deployment steps</a> section.</p>
+<p><strong>Deploy Prometheus into an existing EKS cluster</strong>. This option provisions Prometheus in your existing AWS infrastructure. Note that when deploying into an EKS cluster that was not created by the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" target="_blank" rel="noopener">Amazon EKS on the AWS Cloud</a> Quick Start, you must prepare the cluster as described in the <a href="#_deployment_steps">Deployment steps</a> section.</p>
 </li>
 </ul>
 </div>
@@ -999,20 +982,7 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <h2 id="_deployment_steps">Deployment steps</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_sign_in_to_your_aws_account">Sign in to your AWS account</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Sign in to your AWS account at <a href="https://aws.amazon.com" class="bare">https://aws.amazon.com</a> with an IAM user role that has the necessary permissions. For details, see <a href="#_planning_the_deployment">Planning the deployment</a>, earlier in this guide.</p>
-</li>
-<li>
-<p>Ensure that your AWS account is configured correctly, as discussed in the <a href="#_technical_requirements">Technical requirements</a> section.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_prepare_existing_eks_cluster">Prepare existing EKS cluster</h3>
+<h3 id="_prepare_an_existing_eks_cluster">Prepare an existing EKS cluster</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1020,7 +990,7 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-This step is only required if you launch this Quick Start into an existing Amazon EKS cluster that was not created using the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/">Amazon EKS on the AWS Cloud</a> deployment. If you want to create a new EKS cluster with your deployment, skip to step 3.
+This step is only required if you launch this Quick Start into an existing Amazon EKS cluster that was not created using the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" target="_blank" rel="noopener">Amazon EKS on the AWS Cloud</a> deployment. If you want to create a new EKS cluster with your deployment, skip to step 3.
 </td>
 </tr>
 </table>
@@ -1028,16 +998,19 @@ This step is only required if you launch this Quick Start into an existing Amazo
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Sign in to your AWS account, and launch the <a href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/template?stackName=Amazon-EKS&amp;templateURL=https://aws-quickstart.s3.us-east-1.amazonaws.com/quickstart-amazon-eks/templates/amazon-eks-entrypoint-existing-cluster.template.yaml">cluster preparation template</a>.</p>
+<p>Sign in to your AWS account at <a href="https://aws.amazon.com" target="_blank" rel="noopener">https://aws.amazon.com</a> with an IAM user role that has the necessary permissions. For details, see <a href="#_planning_the_deployment">Planning the deployment</a>, earlier in this guide.</p>
 </li>
 <li>
-<p>The template launches in the US East (Ohio) Region by default. To change the Region, choose another Region from list in the upper-right corner of the navigation bar.</p>
+<p>Launch the <a href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/template?stackName=Amazon-EKS&amp;templateURL=https://aws-quickstart.s3.us-east-1.amazonaws.com/quickstart-amazon-eks/templates/amazon-eks-entrypoint-existing-cluster.template.yaml" target="_blank" rel="noopener">cluster preparation template</a>.</p>
+</li>
+<li>
+<p>The template launches in the US East (Ohio) Region by default. To change the Region, choose another Region from the list in the upper-right corner of the navigation bar.</p>
 </li>
 <li>
 <p>On the <strong>Create stack</strong> page, keep the default setting for the template URL, and then choose <strong>Next</strong>.</p>
 </li>
 <li>
-<p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Enter the name of the Amazon EKS cluster you want to deploy to as well as the subnet IDs and security group ID associated with the cluster. These can be obtained from the EKS cluster console.</p>
+<p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Enter the name of the Amazon EKS cluster you want to deploy to in addition to the subnet IDs and security group ID associated with the cluster. These can be obtained from the EKS cluster console.</p>
 </li>
 <li>
 <p>On the <strong>Options</strong> page, specify the key-value pairs for resources in your stack, and set advanced options. When you’re done, choose <strong>Next</strong>.</p>
@@ -1114,7 +1087,7 @@ You are responsible for the cost of the AWS services used while running this Qui
 </tbody>
 </table>
 <div class="paragraph">
-<p>New cluster deployments take about 90 minutes to complete. Existing-cluster deployments take about 10 minutes to complete.</p>
+<p>New clusters take about 1.5 hours to deploy. Existing clusters take about 45-60 minutes to deploy.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1137,8 +1110,7 @@ If you deploy Prometheus into an existing VPC, ensure that any private subnets h
 <p>On the <strong>Create stack</strong> page, keep the default setting for the template URL, and then choose <strong>Next</strong>.</p>
 </li>
 <li>
-<p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. A reference
-is provided in the <a href="#_parameter_reference">Parameter reference</a> section. Provide values for the parameters that require input. For all other parameters, review the default settings, and customize them as necessary.</p>
+<p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings, and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
 </li>
 <li>
 <p>On the <strong>Options</strong> page, specify the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">key-value pairs</a> for resources in your stack, and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you’re done, choose <strong>Next</strong>.</p>
@@ -1153,7 +1125,7 @@ is provided in the <a href="#_parameter_reference">Parameter reference</a> secti
 <p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the Prometheus deployment is ready.</p>
 </li>
 <li>
-<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Prometheus outputs after successful deployment</a>, to view the created resources.</p>
+<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in the following figure.</p>
 </li>
 </ol>
 </div>
@@ -1176,7 +1148,7 @@ is provided in the <a href="#_parameter_reference">Parameter reference</a> secti
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-These steps must be executed from a network that has access to the Kubernetes API, as configured by the EKS public access endpoint and Kubernetes API public access CIDR parameters. For more information, see <a href="https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html" target="_blank" rel="noopener">Installing kubectl</a>. If you enabled the optional bastion host, you can connect to it by using SSH. Use the key pair that you specified during deployment and the IP address from the Outputs tab of the AWS CloudFormation stack. The bastion host already has kubectl installed and configured so that it connects to the cluster. To test the CLI, connect to the cluster, and run the following command.
+Test from a network with access to the Kubernetes API, as configured by the <strong>Amazon EKS public access endpoint</strong> and <strong>Kubernetes API public access CIDR</strong> parameters. For more information, see <a href="https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html" target="_blank" rel="noopener">Installing kubectl</a>. If you enabled the optional bastion host, you can connect to it using SSH (Secure Shell). Use the key pair that you specified during deployment and the IP address from the <strong>Outputs</strong> tab of the AWS CloudFormation stack. The bastion host already has Kubectl installed and configured so that it connects to the cluster. To test the CLI, connect to the cluster, and run the following command.
 </td>
 </tr>
 </table>
@@ -1184,10 +1156,10 @@ These steps must be executed from a network that has access to the Kubernetes AP
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Configure kubectll command line utility to connect to your EKS cluster, as per the <a href="https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html" target="_blank" rel="noopener">EKS documentation</a>.</p>
+<p>Configure the Kubectl command line utility to connect to your Amazon EKS cluster according to <a href="https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html" target="_blank" rel="noopener">Cluster authentication</a>.</p>
 </li>
 <li>
-<p>Proxy traffic to the prometheus server by running the following command.</p>
+<p>Set up proxy traffic to the Prometheus server by running the following command:</p>
 </li>
 </ol>
 </div>
@@ -1199,7 +1171,7 @@ These steps must be executed from a network that has access to the Kubernetes AP
 <div class="olist arabic">
 <ol class="arabic" start="3">
 <li>
-<p>Open <code><a href="http://localhost:8080/targets/" class="bare">http://localhost:8080/targets/</a></code> in your web browser. You should see a page similar to below.</p>
+<p>Navigate to <code><a href="http://localhost:8080/targets/" class="bare">http://localhost:8080/targets/</a></code> in your web browser. You should see a page like the one shown in <a href="#web-ui1">Figure 3</a>:</p>
 </li>
 </ol>
 </div>
@@ -1215,7 +1187,7 @@ These steps must be executed from a network that has access to the Kubernetes AP
 <h2 id="_best_practices_for_using_prometheus_on_eks">Best practices for using Prometheus on EKS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Best practices for alerting, naming, instrumentation and more are available on the <a href="https://prometheus.io/docs/practices/naming/" target="_blank" rel="noopener">Prometheus best practices documentation</a>.</p>
+<p>Best practices for alerting, naming, instrumentation, and more can be found in the <a href="https://prometheus.io/docs/practices/naming/" target="_blank" rel="noopener">Prometheus documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -1223,7 +1195,7 @@ These steps must be executed from a network that has access to the Kubernetes AP
 <h2 id="_security">Security</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Prometheus is a sophisticated system with many components and many integrations with other systems, and some configurations may enable additional attack vectors, as documented in the <a href="https://prometheus.io/docs/operating/security/" target="_blank" rel="noopener">Prometheus security model web page</a>.</p>
+<p>Prometheus contains many components and integrations with other systems, and some configurations may enable additional attack vectors. For more information, see the <a href="https://prometheus.io/docs/operating/security/#security-model" target="_blank" rel="noopener">Prometheus security model</a>.</p>
 </div>
 </div>
 </div>
@@ -1231,19 +1203,7 @@ These steps must be executed from a network that has access to the Kubernetes AP
 <h2 id="_deployment_customization">Deployment customization</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This deployemnt can be customized by providing a file containing custom values to provide during the helm install. This values file must be in yaml format and can be placed in a public http(s) location, or in an s3 bucket. A full list of configurable options is available in the <a href="https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml" target="_blank" rel="noopener">Prometheus values.yaml file</a>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If a values file is stored in s3, ensure that the <code>awsqs-kubernetes-helm</code> IAM role has read permissions to the object.
-</td>
-</tr>
-</table>
+<p>To customize the Quick Start, you can create a file with custom values. During stack deployment, enter the file URI in the <strong>Override values</strong> parameter. The file must be in YAML format and placed in a public HTTPS location or an S3 bucket. If you use an S3 bucket, ensure that the AWS Identity and Access Management (IAM) role <code>awsqs-kubernetes-helm</code> has read permissions to the file. For a list of configurable options, see the <a href="https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml">prometheus-community/helm-charts</a> GitHub page.</p>
 </div>
 </div>
 </div>
@@ -1251,7 +1211,7 @@ If a values file is stored in s3, ensure that the <code>awsqs-kubernetes-helm</c
 <h2 id="_scalability">Scalability</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This deployment defaults to using gp2 EBS volumes for storage. Large deployments may need more io performance and/or more storage space. To increase io performance you can provide a custom values file pointing the Prometheus server disk to a <code>StorageClass</code> that uses EBS Provisioned IOPS. To increase storage size <code>server.persistentVolume.size</code> and <code>alertmanager.persistentVolume.size</code> can be set in your custom values yaml file.</p>
+<p>By default, this deployment uses General Purpose SSD (gp2) volumes for storage. Large deployments may need more I/O performance or storage space. To increase I/O performance, provide a custom-values file to point the Prometheus server disk to a <code>StorageClass</code> with IOPS provisioned by Amazon EBS. To increase storage size, set <code>server.persistentVolume.size</code> and <code>alertmanager.persistentVolume.size</code> parameters in your custom-values file.</p>
 </div>
 </div>
 </div>
@@ -1262,7 +1222,7 @@ If a values file is stored in s3, ensure that the <code>awsqs-kubernetes-helm</c
 <p><strong>Q.</strong> I encountered a <strong>CREATE_FAILED</strong> error when I launched the Quick Start.</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> If AWS CloudFormation fails to create the stack, we recommend that you relaunch the template with <strong>Rollback on failure</strong> set to <strong>Disabled</strong>. (This setting is under <strong>Advanced</strong> in the AWS CloudFormation console, <strong>Options</strong> page.) With this setting, the stack’s state is retained and the workload is left running, so you can troubleshoot the issue.</p>
+<p><strong>A.</strong> If AWS CloudFormation fails to create the stack, we recommend that you relaunch the template with <strong>Rollback on failure</strong> set to <strong>Disabled</strong>. (This setting is under <strong>Advanced</strong> in the AWS CloudFormation console, <strong>Options</strong> page.) With this setting, the stack’s state is retained, and the workload remains running so you can troubleshoot the issue.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1271,7 +1231,7 @@ If a values file is stored in s3, ensure that the <code>awsqs-kubernetes-helm</c
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, you continue to incur AWS charges for this stack. Please make sure to delete the stack when you finish troubleshooting.
+When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, you continue to incur AWS charges for the stack. Ensure that you delete the stack after troubleshooting.
 </td>
 </tr>
 </table>
@@ -1281,14 +1241,18 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 <div class="sect1">
 <h2 id="_troubleshooting">Troubleshooting</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>For general EKS troubleshooting steps see the <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/">EKS Quick Start documentation</a>.</p>
-</div>
-<div class="paragraph">
-<p>For Prometheus specific troubleshooting see <a href="https://prometheus.io/docs/introduction/faq/#troubleshooting">Prometheus troubleshooting documentation</a>.</p>
-</div>
-<div class="paragraph">
-<p>For additional information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html" target="_blank" rel="noopener">Troubleshooting AWS CloudFormation</a> on the AWS website.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For help with Amazon EKS, see <a href="https://aws-quickstart.github.io/quickstart-amazon-eks/" target="_blank" rel="noopener">Amazon EKS on the AWS Cloud</a>.</p>
+</li>
+<li>
+<p>For help with Prometheus, see <a href="https://prometheus.io/docs/introduction/faq/#troubleshooting" target="_blank" rel="noopener">Troubleshooting</a>.</p>
+</li>
+<li>
+<p>For AWS CloudFormation, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html" target="_blank" rel="noopener">Troubleshooting AWS CloudFormation</a>.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1308,9 +1272,9 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_launch_into_an_existing_eks_cluster">Launch into an existing EKS cluster</h3>
+<h3 id="_launch_into_an_existing_amazon_eks_cluster">Launch into an existing Amazon EKS cluster</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Prometheus for EKS configuration</caption>
+<caption class="title">Table 1. Prometheus for Amazon EKS configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1325,22 +1289,22 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EKS cluster name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EKS cluster name
 (<code>KubeClusterName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the EKS cluster to deploy Prometheus into.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the Amazon EKS cluster to deploy Prometheus into.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Namespace
 (<code>Namespace</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>prometheus</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[Optional] Kubernetes namespace to deploy Prometheus into.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Kubernetes namespace to deploy Prometheus into.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Override values
 (<code>OverrideValues</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) URI to a file containing values to pass to the helm install. Can be http(s):// or s3://.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) URI to a file containing custom values to pass to the Helm install. Can be <code>http(s)://</code> or <code>s3://</code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1381,15 +1345,15 @@ and share customizations with others.</p>
 <p>This document is provided for informational purposes only. It represents AWS’s current product offerings and practices as of the date of issue of this document, which are subject to change without notice. Customers are responsible for making their own independent assessment of the information in this document and any use of AWS’s products or services, each of which is provided “as is” without warranty of any kind, whether expressed or implied. This document does not create any warranties, representations, contractual commitments, conditions, or assurances from AWS, its affiliates, suppliers, or licensors. The responsibilities and liabilities of AWS to its customers are controlled by AWS agreements, and this document is not part of, nor does it modify, any agreement between AWS and its customers.</p>
 </div>
 <div class="paragraph">
-<p>The software included with this paper is licensed under the Apache License, version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at <a href="http://aws.amazon.com/apache2.0/" class="bare">http://aws.amazon.com/apache2.0/</a> or in the accompanying "license" file. This code is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied. See the License for specific language governing permissions and limitations.</p>
+<p>The software included with this paper is licensed under the Apache License, version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at <a href="http://aws.amazon.com/apache2.0/" target="_blank" rel="noopener">http://aws.amazon.com/apache2.0/</a> or in the accompanying "license" file. This code is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied. See the License for specific language governing permissions and limitations.</p>
 </div>
 </div>
 </div>
 </div>
 <p class="footer-text">
 <!-- We can use document attributes: -->
-<!-- Generated with Asciidoctor v2.0.10. -->
-<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2020, Amazon Web Services, Inc. or its affiliates. All rights reserved.
+<!-- Generated with Asciidoctor v2.0.12. -->
+<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2021, Amazon Web Services, Inc. or its affiliates. All rights reserved.
 </p>
 </body>
 </html>

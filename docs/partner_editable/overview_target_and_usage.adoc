@@ -1,16 +1,7 @@
-This guide provides instructions for deploying the Prometheus Quick Start into Amazon EKS.
+This guide provides instructions for deploying Prometheus for Amazon Elastic Kubernetes Service (Amazon EKS).
 
-Prometheus is an open-source systems monitoring and alerting toolkit, providing a reliable, multi-dimensional time-series data store. Prometheus's main features are:
+This Quick Start deploys Prometheus open-source monitoring for Amazon Elastic Kubernetes Service (Amazon EKS). It uses Prometheus query language (PromQL) to monitor the performance of containerized workloads without the need for underlying infrastructure. You can use the Kubernetes API server to ingest metrics from Amazon EKS nodes and self-managed clusters. For visualizations, Prometheus features an expression browser and offers multiple modes of graphing and dashboard support.
 
-- a multi-dimensional data model with time series data identified by metric name and key/value pairs
-- PromQL, a flexible query language to leverage this dimensionality
-- no reliance on distributed storage; single server nodes are autonomous
-- time series collection happens via a pull model over HTTP
-- pushing time series is supported via an intermediary gateway
-- targets are discovered via service discovery or static configuration
-- multiple modes of graphing and dashboarding support
+In addition to Prometheus for Amazon EKS, this Quick Start also configures monitoring for Amazon EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
 
-In addition to deploying Prometheus into Amazon EKS this Quick Start also configures monitoring for EKS nodes (`node-exporter`) and the Kubernetes API server (`kube-state-metrics`).
-
-
-This Quick Start is for developers, devops, security teams, or any role within an organization building, deploying and maintaining applications on Amazon EKS.
+Amazon Web Service (AWS) customers can deploy Prometheus into a new virtual private cloud (VPC) and a new EKS cluster, an existing VPC and a new EKS cluster, or an existing VPC and an existing EKS cluster.
